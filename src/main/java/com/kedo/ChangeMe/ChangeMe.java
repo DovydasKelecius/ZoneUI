@@ -13,7 +13,7 @@ public class ChangeMe {
     private static ChangeMe instance;
     
     /**
-     * Constructor - Called when plugin is loaded.
+     * Constructor - Called when plugin is loaded. test
      */
     public ChangeMe() {
         instance = this;
