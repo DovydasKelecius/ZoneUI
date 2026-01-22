@@ -3,11 +3,8 @@ package com.kedo.ZoneUI;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
-import com.kedo.ZoneUI.commands.WelcomePageCommand;
-import com.kedo.ZoneUI.ui.UIData;
-import com.kedo.ZoneUI.ui.UIPage;
 import com.kedo.ZoneUI.ui.UIManager;
-import com.hypixel.hytale.server.core.Message;
+import com.kedo.ZoneUI.setup.UIInitializer; // Add this import
 
 import javax.annotation.Nonnull;
 
@@ -31,18 +28,9 @@ public class ZoneUI extends JavaPlugin {
 
         uiManager = new UIManager(this);
 
-        UIPage welcomePage = new UIPage("Pages/WelcomePage.ui")
-                .onButtonClick("#GreetButton", (player, ref, store, data) -> {
-                    String playerName = data.playerName != null && !data.playerName.isEmpty() ? data.playerName : "Stranger";
-                    player.sendMessage(Message.raw("Hello, " + playerName + "!"));
-                    uiManager.closePage(player, ref, store);
-                });
-        uiManager.registerPage("welcome", welcomePage);
-
-
-        getCommandRegistry().registerCommand(new WelcomePageCommand(this));
-
-        LOGGER.atInfo().log("Commands Registered: /welcome");
+        // Use UIInitializer to set up UI pages and commands
+        UIInitializer initializer = new UIInitializer(uiManager, this);
+        initializer.initializeUI();
     }
 
     public UIManager getUiManager() {

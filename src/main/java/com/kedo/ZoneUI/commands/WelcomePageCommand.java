@@ -16,7 +16,7 @@ public class WelcomePageCommand extends AbstractPlayerCommand {
   private final ZoneUI plugin;
 
   public WelcomePageCommand(ZoneUI plugin) {
-    super("welcome", "Opens the WelcomePage UI");
+    super("zui", "Opens the WelcomePage UI");
     this.plugin = plugin;
   }
 
