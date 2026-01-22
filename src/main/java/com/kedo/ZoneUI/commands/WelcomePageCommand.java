@@ -8,13 +8,16 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.kedo.ZoneUI.pages.WelcomePage;
+import com.kedo.ZoneUI.ZoneUI;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 public class WelcomePageCommand extends AbstractPlayerCommand {
 
-  public WelcomePageCommand() {
+  private final ZoneUI plugin;
+
+  public WelcomePageCommand(ZoneUI plugin) {
     super("welcome", "Opens the WelcomePage UI");
+    this.plugin = plugin;
   }
 
   @Override
@@ -22,9 +25,7 @@ public class WelcomePageCommand extends AbstractPlayerCommand {
                          @NonNullDecl Ref<EntityStore> ref, @NonNullDecl PlayerRef playerRef, @NonNullDecl World world) {
     Player player = store.getComponent(ref, Player.getComponentType());
 
-    WelcomePage page = new WelcomePage(playerRef);
-
     assert player != null;
-    player.getPageManager().openCustomPage(ref, store, page);
+    plugin.getUiManager().showPage("welcome", player, playerRef, ref, store);
   }
 }
