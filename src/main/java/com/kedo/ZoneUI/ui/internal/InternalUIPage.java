@@ -29,14 +29,17 @@ public class InternalUIPage extends InteractiveCustomUIPage<UIEventData> {
     @Override
     public void build(@NonNullDecl Ref<EntityStore> ref, @NonNullDecl UICommandBuilder cmd, @NonNullDecl UIEventBuilder evt, @NonNullDecl Store<EntityStore> store) {
         cmd.append(page.getUiFile());
-        // Removed initialData cmd.set() loop
+
+        if (page.getOnShow() != null) {
+            Player player = store.getComponent(ref, Player.getComponentType());
+            page.getOnShow().accept(player, cmd);
+        }
 
         for (ClickBinding binding : page.getClickBindings()) {
             EventData eventData = new EventData();
-            eventData.append("EventName", binding.getComponentId()); // Restore EventName
+            eventData.append("EventName", binding.getComponentId());
 
-            // Directly append " @PlayerName" as per working example
-            eventData.append("@PlayerName", "#NameInput.Value"); // Hardcoded for this specific example
+            eventData.append("@PlayerName", "#NameInput.Value");
 
             evt.addEventBinding(
                     CustomUIEventBindingType.Activating,
